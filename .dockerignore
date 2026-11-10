@@ -1,0 +1,31 @@
+# Fichiers à ignorer lors de la construction Docker
+
+# Répertoires
+venv/
+.env/
+__pycache__/
+
+# Fichiers
+*.pyc
+*.pyo
+*.pyd
+.Python
+
+# Fichiers de développement
+*.md
+*.txt
+run_app.sh
+
+# Fichiers de test
+*_test.py
+*.py~
+
+# Fichiers système
+.DS_Store
+Thumbs.db
+
+# Fichiers de configuration locale
+.docker/
+
+# Logs
+*.log
