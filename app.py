@@ -55,11 +55,13 @@ with st.sidebar:
 
     st.header("FRF")
     x_force = st.slider("Position de la force x_k [m]", 0.0, float(L), float(L))
-    default_sensors = [round(L * f, 3) for f in (1 / 6, 1 / 3, 1 / 2, 2 / 3, 5 / 6, 1.0)]
+    sensor_options = [round(L * i / 100, 4) for i in range(101)]
+    default_sensors = [min(sensor_options, key=lambda o: abs(o - L * f))
+                       for f in (1 / 6, 1 / 3, 1 / 2, 2 / 3, 5 / 6, 1.0)]
     x_sensors = st.multiselect(
         "Positions des capteurs x_j [m]",
-        options=[round(L * i / 100, 4) for i in range(101)],
-        default=[s for s in default_sensors if s <= L],
+        options=sensor_options,
+        default=default_sensors,
     )
 
 m_l, J, EJ = beam.section_properties(b, h, rho, E)
@@ -84,7 +86,7 @@ freq_df = pd.DataFrame({
     "Pulsation w_n [rad/s]": np.round(nat_puls, 3),
     "Fréquence f_n [Hz]": np.round(nat_freq, 4),
 })
-st.dataframe(freq_df, use_container_width=True)
+st.dataframe(freq_df, width="stretch")
 st.download_button(
     "Télécharger les fréquences (CSV)",
     freq_df.to_csv(index=False).encode(),
